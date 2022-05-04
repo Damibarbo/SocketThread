@@ -7,8 +7,8 @@ public class GestoreServer {
 		  Server se = new Server(2000); 
 			
 				se.connessione();
-				
-			//se.scrivi(); 
+				se.scrivi();
+				se.leggi();
 			//se.chiusura();
 		 
 	  }

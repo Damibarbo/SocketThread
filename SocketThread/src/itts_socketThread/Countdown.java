@@ -13,7 +13,7 @@ public class Countdown extends Thread {
 	public void run() {
 		
 		while(lifeTime>=0) {
-			while(!interrotto) {
+			if(!interrotto) {
 				System.out.println(lifeTime);
 				lifeTime=lifeTime-1; 
 				try {

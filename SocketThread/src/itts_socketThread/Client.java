@@ -4,6 +4,7 @@ package itts_socketThread;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -25,7 +26,10 @@ public class Client {
 	
 	public void connessione() {
 		try {
-			socket= new Socket(ip, porta);
+			socket= new Socket();
+			InetSocketAddress isa = new InetSocketAddress(ip, porta);
+			socket.connect(isa, 25000);
+			
 			System.out.println("Client avviato con successo"); 
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -41,17 +45,17 @@ public class Client {
 		}
 	}
 	
-	public void leggi() {
-		Scanner sc;
+	public String leggi() {
+		String timeOut = null;
+		Scanner sc; 
 		try {
 			sc=new Scanner(socket.getInputStream());
-			String risposta=sc.nextLine(); 
-			risposta +="\n"; 
-			System.out.println("Client: " + risposta); 
+			timeOut=sc.nextLine();  
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		return timeOut; 
 	} 
 
 	public void scrivi() {
@@ -59,7 +63,7 @@ public class Client {
 		  
 		Scanner in=new Scanner(System.in); 
 		
-		System.out.println("inserisci il messaggio da mandare al client");
+		System.out.println("inserisci la password per ricevere la data");
 		String messaggio=in.nextLine(); 
 		messaggio += "\n";
 		DataOutputStream dos = new DataOutputStream(socket.getOutputStream()); 
@@ -70,7 +74,21 @@ public class Client {
 		e.printStackTrace();
 	}
 
-	} 
+	}
+	
+	public void riceviData() {
+		Scanner sc; 
+		String data; 
+		try {
+			sc=new Scanner(socket.getInputStream());
+			data=sc.nextLine();  
+			System.out.print("Data attuale: "+data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+	}
 
 
 }
